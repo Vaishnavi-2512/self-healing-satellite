@@ -1,110 +1,185 @@
 # Generative AI-Driven Self-Healing and Adaptive Spectrum Management for Resilient Satellite Communications
 
-> Collaborative research prototype by Pullela Vaishnavi and Pullela Giridhar.
+> **Best Paper Award** - a unified AI-driven framework integrating adaptive spectrum management, satellite damage detection and restoration, self-healing strategy selection, and LLM-based decision support for resilient satellite communications.
 
-This project develops an AI-driven framework for resilient satellite communications by combining **adaptive spectrum management, interference detection, satellite damage classification, damage restoration, damage-to-healing strategy mapping, and LLM-based decision support** in a simulated environment.
+[![Research Prototype](https://img.shields.io/badge/type-research%20prototype-blue)](#)
+[![Satellite Resilience](https://img.shields.io/badge/domain-satellite%20resilience-1f6feb)](#)
+[![Autonomous Self-Healing](https://img.shields.io/badge/capability-autonomous%20self--healing-6f42c1)](#)
+[![Adaptive Spectrum Management](https://img.shields.io/badge/capability-adaptive%20spectrum%20management-orange)](#)
+[![AI Methods](https://img.shields.io/badge/methods-CNN%20%7C%20ViT%20%7C%20GAN%20%7C%20PPO-purple)](#)
 
-## System Overview
+## Overview
+
+Satellite communication systems can experience spectrum congestion, interference, and structural degradation caused by radiation, thermal cycling, mechanical stress, and component failure. This project develops a unified AI-driven framework that addresses **adaptive spectrum management and autonomous satellite self-healing within a single research pipeline**.
+
+The framework combines synthetic spectrum/interference generation, demand prediction, interference classification, satellite damage detection, damage restoration, damage-to-healing strategy mapping, and LLM-based decision support. The work was validated in a simulated environment using synthetic datasets and Blender-generated satellite imagery.
+
+## System Architecture
 
 ```mermaid
 flowchart TB
-    A[Satellite operating conditions] --> S[Spectrum management]
-    A --> H[Satellite self-healing]
-    S --> S1[Synthetic spectrum/interference generation]
-    S1 --> S2[Demand prediction]
-    S1 --> S3[Interference classification]
-    S2 --> S4[Adaptive spectrum allocation]
-    S3 --> S4
-    H --> H1[Blender damage simulation]
-    H1 --> H2[Damage detection and classification]
-    H2 --> H3[Damage restoration]
-    H2 --> H4[Damage-to-healing strategy mapping]
-    S4 --> D[AI decision support]
+
+    A["Satellite Operating Conditions<br/>Spectrum Congestion • Interference • Structural Damage"]
+
+    A --> S1
+    A --> H1
+
+    subgraph S["ADAPTIVE SPECTRUM MANAGEMENT"]
+        direction TB
+        S1["Synthetic Spectrum & Interference Generation<br/><br/>TimeGAN"]
+        S1 --> S2["Spectrum Demand Prediction"]
+        S1 --> S3["Interference Classification"]
+        S2 --> S4["CNN / LSTM / PPO<br/>Comparative Modeling"]
+        S3 --> S5["Interference-Aware Spectrum Analysis"]
+        S4 --> S6["Adaptive Spectrum Allocation"]
+        S5 --> S6
+    end
+
+    subgraph H["AUTONOMOUS SATELLITE SELF-HEALING"]
+        direction TB
+        H1["Blender-Based Satellite<br/>Damage Simulation"]
+        H1 --> H2["Normal / Damaged<br/>Satellite Imagery"]
+        H2 --> H3["Damage Detection & Classification<br/><br/>CNN + Vision Transformer"]
+        H3 --> H4["Damage Restoration<br/><br/>Edge-Connect GAN"]
+        H3 --> H5["Damage-to-Healing<br/>Strategy Mapping"]
+        H5 --> H6["Simulated Healing Strategies"]
+        H4 --> H7["Restored Satellite<br/>Representation"]
+    end
+
+    S6 --> D
     H3 --> D
-    H4 --> D
-    D --> O[Resilient satellite operations]
+    H5 --> D
+    H7 --> D
+
+    D["LLM-BASED DECISION SUPPORT<br/><br/>GPT-2"]
+    D --> O1["Spectrum Insights"]
+    D --> O2["Diagnostic Reports"]
+    D --> O3["Repair Recommendations"]
+    D --> O4["Human-in-the-Loop<br/>Decision Support"]
+
+    O1 --> F
+    O2 --> F
+    O3 --> F
+    O4 --> F
+    F["RESILIENT SATELLITE OPERATIONS"]
+
+    classDef input fill:#0f172a,color:#ffffff,stroke:#334155,stroke-width:2px;
+    classDef spectrum fill:#eff6ff,color:#0f172a,stroke:#2563eb,stroke-width:2px;
+    classDef healing fill:#f5f3ff,color:#0f172a,stroke:#7c3aed,stroke-width:2px;
+    classDef decision fill:#fff7ed,color:#0f172a,stroke:#ea580c,stroke-width:2px;
+    classDef output fill:#ecfdf5,color:#0f172a,stroke:#059669,stroke-width:2px;
+
+    class A input;
+    class S1,S2,S3,S4,S5,S6 spectrum;
+    class H1,H2,H3,H4,H5,H6,H7 healing;
+    class D,O1,O2,O3,O4 decision;
+    class F output;
 ```
 
-## Technical Components
+## Adaptive Spectrum Management
 
-### Adaptive spectrum management
+The spectrum-management pipeline addresses limited real-world spectrum datasets and changing communication conditions.
 
-- TimeGAN-based synthetic spectrum-demand and interference sequence generation.
-- Comparative spectrum-demand modeling using CNN, LSTM, and PPO approaches.
-- CNN-based interference classification.
-- Spectrum-allocation evaluation under availability levels from 50% to 100%.
+### Synthetic data generation
 
-### Satellite damage assessment and restoration
+A **TimeGAN-based framework** is used to generate synthetic spectrum-demand and interference sequences while preserving temporal dependencies. The paper describes an architecture combining GRU networks with GAN principles through embedding, recovery, generator, discriminator, and supervisor components.
 
-- Blender-generated satellite imagery for controlled damage scenarios.
-- CNN + Vision Transformer architecture for damage type and severity classification.
-- Edge-Connect GAN for reconstruction of damaged image regions.
-- Mapping of detected damage modes to simulated self-healing strategies.
+### Demand prediction and allocation
 
-### Decision support
+The study compares several approaches, including GAN-based generation, PPO, LSTM, and CNN-based prediction. The reported experiments identify the CNN model as the strongest performer among the tested spectrum-prediction approaches.
 
-GPT-2-based components provide natural-language interpretation of spectrum conditions and satellite diagnostics, including repair recommendations and human-in-the-loop decision support.
+### Interference classification
 
-## Repository Structure
+A CNN-based classifier processes time- and area-derived interference features to identify interference patterns and support spectrum-allocation prioritization.
 
-```text
-├── data_gen_gan_interference.py
-├── data_gen_gan_spectrum_allocation.py
-├── GAN_spectrum_demand_prediction.py
-├── spectrum_demand_forecast.py
-├── spectrum_demand_forecast_cnn.py
-├── spectrum_allocation_ppo.py
-├── interference_classifier.py
-├── evaluate_cnn_model.py
-├── evaluate_damaged_satellite_scenario.py
-├── reconstruction_gan_model.py
-├── make_cnn_prediction.py
-├── integration.py
-├── integration_new.py
-├── research/
-└── docs/
-```
+### Spectrum scarcity analysis
+
+The spectrum-management model is evaluated under availability levels from **50% to 100%**, explicitly studying degraded and scarce-spectrum conditions.
+
+## Satellite Self-Healing
+
+The self-healing pipeline models structural degradation through synthetic satellite imagery generated in Blender.
+
+### Damage dataset
+
+For binary damage classification, the study reports **15,000 images**: 7,500 normal and 7,500 damaged images per satellite model across three models. A separate multiclass dataset contains **2,250 annotated images** spanning nine damage classes: cracks, dents, and thermal degradation, each at low, medium, and high severity.
+
+### Damage restoration
+
+**Edge-Connect GAN** is used to identify and reconstruct damaged regions through an edge-prediction stage followed by image completion.
+
+### Damage classification
+
+A hybrid **CNN + Vision Transformer** architecture combines convolutional feature extraction with Transformer encoders to classify damage type and severity.
+
+### Damage-to-healing mapping
+
+A feed-forward network maps classified damage modes to corresponding simulated self-healing strategies, including:
+
+- Electrostatic crack sealing
+- Plasma deposition
+- Laser ablation
+- Thermal expansion
+- Electromagnetic stress redistribution
+- Laser resurfacing
+- AI-triggered self-healing ceramic sprays
+- AI-directed cold welding
+- AI-directed thermal-shock repair
+
+These are **simulated strategy mappings in the research framework**, not claims of a deployed physical repair system.
+
+## LLM Decision Support
+
+Two GPT-2-based language models are integrated as a decision-support layer:
+
+- a spectrum-analysis model that interprets spectrum usage, interference patterns, and regulatory information;
+- a diagnostic model that summarizes damage assessments, repair recommendations, confidence levels, and alternatives.
+
+The LLM layer is intended to improve interpretability and human-in-the-loop decision support rather than replace the underlying predictive and restoration models.
 
 ## Reported Results
 
-The following values are **reported in the associated research work** and are not presented as newly reproduced benchmarks by this repository:
+The following values are **reported by the accompanying research paper** and are presented here as paper-reported results, not as fresh reproduction benchmarks:
 
 | Component | Reported result |
 |---|---:|
 | Spectrum demand prediction (CNN) | **75–85% accuracy** |
 | Interference classification (CNN) | **98% accuracy** |
 | Edge-Connect GAN restoration | **0.92 SSIM** |
-| CNN + Vision Transformer damage classification | **99.70% accuracy** |
-| Damage classification precision | **99.65%** |
-| Damage classification recall | **99.60%** |
-| Damage-to-healing mapping | **95% over 100 simulated scenarios** |
+| CNN + Transformer damage classification | **99.70% accuracy** |
+| CNN + Transformer precision | **99.65%** |
+| CNN + Transformer recall | **99.60%** |
+| Damage-to-healing mapping | **95% correct over 100 simulated scenarios** |
 
-## Experimental Scope
+The paper also reports spectrum-allocation evaluation across 50–100% availability. At 50%, 60%, 70%, 80%, 90%, and 100% availability, the reported accuracy values were 0.787, 0.788, 0.778, 0.771, 0.770, and 0.770 respectively; utilization was 1.124, 0.937, 0.803, 0.703, 0.625, and 0.562 respectively.
 
-The framework is validated using **synthetic data, simulation, and Blender-generated satellite imagery**, rather than live spacecraft telemetry or operational satellite hardware. The healing strategies are simulated mappings within the research framework and should not be interpreted as demonstrated physical spacecraft repair capabilities.
+## Key Research Characteristics
 
-Future work includes validation against public ESA/NASA datasets, hardware-oriented experimentation, and optimization for deployment constraints.
+- Generative AI for synthetic spectrum and interference data
+- CNN/LSTM/PPO comparison for adaptive spectrum management
+- CNN + Vision Transformer for satellite damage classification
+- Edge-Connect GAN for structural-region restoration
+- Explicit damage-to-healing strategy mapping
+- GPT-2-based natural-language decision support
+- Blender-based satellite damage simulation
+- Evaluation under spectrum scarcity and structural damage scenarios
 
-## Research Areas
+## Experimental Scope and Limitations
 
-- Resilient satellite communications
-- Autonomous satellite self-healing
-- Adaptive spectrum management
-- Generative AI
-- Reinforcement learning
-- Computer vision
-- Vision Transformers
-- GAN-based image restoration
-- AI-assisted decision support
+The current framework is validated using **synthetic data and Blender-based simulation**, rather than live satellite telemetry or operational spacecraft hardware. The paper identifies future validation using public ESA/NASA datasets and further optimization for radiation-hardened deployment.
 
-## Attribution
+This distinction is intentionally preserved so the repository does not imply operational deployment that the current research does not establish.
 
-This is a **collaborative project**. The repository is maintained under Pullela Vaishnavi's GitHub account to document her contribution and provide a public research portfolio artifact. Collaborative authorship and original research attribution are retained rather than presenting the work as an individual project.
+## Publication Status
 
-## Security and Configuration
+This project currently **does not have a DOI/publication record attached to this repository**.
 
-Do not commit credentials, API keys, generated local artifacts, or private datasets. Use `.env.example` as the configuration template and review `SECURITY.md` before running integrations.
+The work received the **Best Paper Award**. Publication metadata will be added here once a formal publication record or DOI is available.
 
-## Publication
+## Citation
 
-The associated work received a **Best Paper Award**. Formal publication metadata and DOI will be added when the final bibliographic record is available.
+A formal citation block will be added once the publication record/DOI is available.
+
+## Author
+
+**Pullela Giridhar** - cybersecurity and AI-security researcher.
